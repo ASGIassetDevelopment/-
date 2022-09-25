@@ -1,0 +1,28 @@
+strategy("MyStrategy", overlay=true)
+
+position_profit = strategy.position_avg_price / 100 * 5
+position_loss = strategy.position_avg_price / 100 * 1.6
+
+shortEMA = ta.ema(close,21)
+longEMA = ta.ema(close,55)
+rsi = ta.rsi(close,14)
+atr = ta.atr(14)
+
+shortCondition = ta.crossunder(shortEMA,longEMA)
+longCondition = ta.crossover(shortEMA,longEMA)
+
+if(shortCondition)
+    short_stop_level = strategy.position_avg_price + position_loss
+    short_take_level = strategy.position_avg_price - position_profit
+    
+    strategy.entry("short",strategy.short,10)
+    strategy.exit("exit short", stop=short_stop_level,limit=short_take_level)
+    
+if(longCondition)
+    stop_loss = strategy.position_avg_price - position_loss
+    long_take_level = strategy.position_avg_price + position_profit
+    
+    strategy.entry("long",strategy.long,10)
+    strategy.exit("exit long",stop=stop_loss,limit=long_take_level)
+plot(shortEMA,color=color.red)
+plot(longEMA)
