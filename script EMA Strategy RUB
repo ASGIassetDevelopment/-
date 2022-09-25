@@ -1,7 +1,7 @@
 strategy("MyStrategy", overlay=true)
 
-position_profit = strategy.position_avg_price / 100 * 5
-position_loss = strategy.position_avg_price / 100 * 1.6
+position_profit = strategy.position_avg_price / 100 * 3
+position_loss = strategy.position_avg_price / 100 * 1
 
 shortEMA = ta.ema(close,21)
 longEMA = ta.ema(close,55)
